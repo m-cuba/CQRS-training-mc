@@ -1,0 +1,17 @@
+﻿namespace Sportsbook.ServiceTemplate.Core.ValueObjects
+{
+    public sealed record Sku
+    {
+        public string Value { get; }
+
+        public Sku(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Sku cannot be empty", nameof(value));
+
+            Value = value;
+        }
+
+        public override string ToString() => Value;
+    }
+}
