@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using Sportsbook.ServiceTemplate.Application.Extensions;
+using Sportsbook.ServiceTemplate.Infrastructure.Extensions;
 
 public static class Startup
 {
@@ -8,8 +9,7 @@ public static class Startup
         builder.Services.AddLogging(loggingBuilder =>
           loggingBuilder.AddSerilog(dispose: true));
 
-        // Mapster custom config based on assembly scan
-        builder.Services.AddMapster();
+        builder.Services.AddInfraServices(builder.Configuration);
 
         builder.Services.AddApiVersioning(options =>
         {
@@ -26,6 +26,8 @@ public static class Startup
             // can also be used to control the format of the API version in route templates
             options.SubstituteApiVersionInUrl = true;
         });
+        builder.Services.AddControllers();
+
 
         // Add Application layer services:
         builder.Services.AddApplicationServices();
@@ -35,15 +37,11 @@ public static class Startup
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
-        builder.Services.AddStackExchangeRedisCache(redisOptions =>
-        {
-            redisOptions.Configuration = builder.Configuration.GetConnectionString("Redis");
-        });
     }
 
     public static void Configure(this WebApplication app)
     {
+        app.Services.ApplyMigrations();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -51,6 +49,8 @@ public static class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.MapControllers();
 
         app.UseHttpsRedirection();
     }
