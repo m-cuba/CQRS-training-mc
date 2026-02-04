@@ -9,7 +9,6 @@
     <ItemGroup>
       <Folder Include="Behavior\" />
       <Folder Include="Exceptions\" />
-      <Folder Include="Interfaces\" />
       <Folder Include="Mappers\" />
       <Folder Include="Services\" />
       <Folder Include="Validators\" />
@@ -17,7 +16,6 @@
 
     <ItemGroup>
       <PackageReference Include="DotPulsar" Version="3.1.0" />
-      <PackageReference Include="Mapster" Version="7.4.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     </ItemGroup>
 
