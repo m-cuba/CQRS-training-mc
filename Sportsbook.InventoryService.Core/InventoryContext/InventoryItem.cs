@@ -24,17 +24,17 @@
         {
             EnsurePositiveMovement(quantity);
 
-            Quantity = Quantity.Add(quantity);
+            Quantity += quantity;
         }
 
         public void RemoveStock(Quantity quantity)
         {
             EnsurePositiveMovement(quantity);
 
-            if (Quantity.Value < quantity.Value)
+            if (Quantity < quantity)
                 throw new InsufficientStockException(Sku);
 
-            Quantity = Quantity.Subtract(quantity);
+            Quantity -= quantity;
         }
 
         private static void EnsurePositiveMovement(Quantity quantity)
