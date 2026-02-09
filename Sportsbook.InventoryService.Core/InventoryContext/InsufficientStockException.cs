@@ -1,6 +1,4 @@
-﻿using Sportsbook.InventoryService.Core.ValueObjects;
-
-namespace Sportsbook.InventoryService.Core.Exceptions
+﻿namespace Sportsbook.InventoryService.Core.InventoryContext
 {
     public class InsufficientStockException(Sku sku) : Exception($"Insufficient stock for item with SKU '{sku.Value}'.")
     {

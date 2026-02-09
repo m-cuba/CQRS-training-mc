@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sportsbook.InventoryService.Core.Entities;
-using Sportsbook.InventoryService.Core.Repositories;
-using Sportsbook.InventoryService.Core.ValueObjects;
+using Sportsbook.InventoryService.Core.InventoryContext;
 
 namespace Sportsbook.InventoryService.Infrastructure.Repositories
 {

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
-using Sportsbook.InventoryService.Core.Repositories;
+using Sportsbook.InventoryService.Core.InventoryContext;
 using Sportsbook.InventoryService.Infrastructure.Repositories;
 
 namespace Sportsbook.InventoryService.Infrastructure.Extensions;

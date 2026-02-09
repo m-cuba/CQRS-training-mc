@@ -1,4 +1,4 @@
-﻿namespace Sportsbook.InventoryService.Core.ValueObjects
+﻿namespace Sportsbook.InventoryService.Core.InventoryContext
 {
     public sealed record Quantity
     {

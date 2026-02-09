@@ -8,7 +8,7 @@ using Sportsbook.InventoryService.Application.Features.InventoryItemContext.GetB
 using Sportsbook.InventoryService.Application.Features.InventoryItemContext.RemoveStock;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Application.Seedwork.Responses;
-using Sportsbook.InventoryService.Core.Exceptions;
+using Sportsbook.InventoryService.Core.InventoryContext;
 
 namespace Sportsbook.InventoryService.API.Tests.Controllers
 {
@@ -66,7 +66,7 @@ namespace Sportsbook.InventoryService.API.Tests.Controllers
                     A<RemoveStockCommand>.That.Matches(c =>
                         c.Sku == "SKU-1" &&
                         c.Quantity == 10), CancellationToken.None))
-                .Throws(new InsufficientStockException(new Core.ValueObjects.Sku("SKU-1")));
+                .Throws(new InsufficientStockException(new Sku("SKU-1")));
 
             // Act
             var result = await _controller.RemoveStock("SKU-1", request, CancellationToken.None);

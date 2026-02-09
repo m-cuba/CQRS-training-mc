@@ -1,7 +1,4 @@
-﻿using Sportsbook.InventoryService.Core.Entities;
-using Sportsbook.InventoryService.Core.ValueObjects;
-
-namespace Sportsbook.InventoryService.Core.Repositories
+﻿namespace Sportsbook.InventoryService.Core.InventoryContext
 {
     public interface IInventoryRepository
     {

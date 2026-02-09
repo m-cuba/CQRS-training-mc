@@ -1,7 +1,6 @@
 ﻿using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Application.Seedwork.Responses;
-using Sportsbook.InventoryService.Core.Repositories;
-using Sportsbook.InventoryService.Core.ValueObjects;
+using Sportsbook.InventoryService.Core.InventoryContext;
 
 namespace Sportsbook.InventoryService.Application.Features.InventoryItemContext.GetBySku
 {

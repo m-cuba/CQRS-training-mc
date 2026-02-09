@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Sportsbook.InventoryService.Core.Exceptions;
+using Sportsbook.InventoryService.Core.InventoryContext;
 
 namespace Sportsbook.InventoryService.API.Exceptions
 {

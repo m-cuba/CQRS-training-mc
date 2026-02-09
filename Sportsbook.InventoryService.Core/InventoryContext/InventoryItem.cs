@@ -1,7 +1,4 @@
-﻿using Sportsbook.InventoryService.Core.Exceptions;
-using Sportsbook.InventoryService.Core.ValueObjects;
-
-namespace Sportsbook.InventoryService.Core.Entities
+﻿namespace Sportsbook.InventoryService.Core.InventoryContext
 {
     public class InventoryItem
     {

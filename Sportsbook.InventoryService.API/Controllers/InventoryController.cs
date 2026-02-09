@@ -6,7 +6,7 @@ using Sportsbook.InventoryService.Application.Features.InventoryItemContext.GetB
 using Sportsbook.InventoryService.Application.Features.InventoryItemContext.RemoveStock;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Application.Seedwork.Responses;
-using Sportsbook.InventoryService.Core.Exceptions;
+using Sportsbook.InventoryService.Core.InventoryContext;
 using System.Net;
 
 namespace Sportsbook.InventoryService.API.Controllers
