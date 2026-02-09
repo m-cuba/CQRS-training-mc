@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sportsbook.InventoryService.API.Request;
-using Sportsbook.InventoryService.Application.Commands.AddStock;
-using Sportsbook.InventoryService.Application.Commands.CreateItem;
-using Sportsbook.InventoryService.Application.Commands.RemoveStock;
-using Sportsbook.InventoryService.Application.Queries.GetItemBySku;
+using Sportsbook.InventoryService.Application.Features.InventoryItemContext.AddStock;
+using Sportsbook.InventoryService.Application.Features.InventoryItemContext.CreateItem;
+using Sportsbook.InventoryService.Application.Features.InventoryItemContext.GetBySku;
+using Sportsbook.InventoryService.Application.Features.InventoryItemContext.RemoveStock;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Application.Seedwork.Responses;
 using Sportsbook.InventoryService.Core.Exceptions;
@@ -65,7 +65,7 @@ namespace Sportsbook.InventoryService.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<InventoryItemResponse>> GetBySku(string sku, CancellationToken cancellationToken)
         {
-            var result = await getItemBySkuHandler.Handle(new GetItemBySkuQuery(sku), cancellationToken);
+            var result = await getItemBySkuHandler.Handle(new GetBySkuQuery(sku), cancellationToken);
 
             return result is null
                 ? NotFound()
