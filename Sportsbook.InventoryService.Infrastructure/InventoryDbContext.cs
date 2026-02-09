@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Core.InventoryContext;
-using Sportsbook.InventoryService.Core.ValueObjects;
 
 namespace Sportsbook.InventoryService.Infrastructure
 {
