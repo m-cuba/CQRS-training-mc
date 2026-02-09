@@ -20,7 +20,7 @@
     image: servicetemplate.api  
     build:
       context: .
-      dockerfile: Sportsbook.ServiceTemplate.API/Dockerfile
+      dockerfile: Sportsbook.InventoryService.API/Dockerfile
     container_name: inventory-api
     depends_on:
       postgres:
