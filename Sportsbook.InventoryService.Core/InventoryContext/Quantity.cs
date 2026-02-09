@@ -17,10 +17,12 @@
 
         public Quantity Subtract(Quantity other)
         {
-            if (Value - other.Value < 0)
+            var result = Value - other.Value;
+
+            if (result < 0)
                 throw new InvalidOperationException("Quantity cannot be negative");
 
-            return new(Value - other.Value);
+            return new(result);
         }
 
         public static Quantity operator +(Quantity left, Quantity right)
