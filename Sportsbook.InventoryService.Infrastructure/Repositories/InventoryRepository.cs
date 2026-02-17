@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sportsbook.InventoryService.Core.InventoryContext;
+using Sportsbook.InventoryService.Core.InventoryContext.Repositories;
 
 namespace Sportsbook.InventoryService.Infrastructure.Repositories
 {
@@ -11,11 +12,6 @@ namespace Sportsbook.InventoryService.Infrastructure.Repositories
         {
             return await _db.InventoryItems
                 .SingleOrDefaultAsync(x => x.Sku == sku, cancellationToken);
-        }
-
-        public async Task<List<InventoryItem>> GetAllAsync(CancellationToken cancellationToken = default)
-        {
-            return await _db.InventoryItems.ToListAsync(cancellationToken);
         }
 
         public Task AddAsync(InventoryItem item, CancellationToken cancellationToken = default)

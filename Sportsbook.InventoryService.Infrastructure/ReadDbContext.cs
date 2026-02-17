@@ -1,18 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Core.InventoryContext;
 
 namespace Sportsbook.InventoryService.Infrastructure
 {
-    public class InventoryDbContext(DbContextOptions<InventoryDbContext> options) : DbContext(options), IUnitOfWork
+    public class ReadDbContext(DbContextOptions<ReadDbContext> options) : DbContext(options), IReadUnitOfWork
     {
         public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
+        public DbSet<StockMovement> StockMovements => Set<StockMovement>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<InventoryItem>(builder =>
             {
-                builder.ToTable("InventoryItems");
+                builder.ToTable("ReadInventoryItems");
 
                 builder.HasKey(i => i.Id);
 
@@ -20,7 +21,6 @@ namespace Sportsbook.InventoryService.Infrastructure
                     .IsRequired()
                     .HasMaxLength(200);
 
-                // Convert Quantity value object to int in the DB.
                 builder.Property(i => i.Quantity)
                     .HasConversion(
                         q => q.Value,
@@ -35,9 +35,30 @@ namespace Sportsbook.InventoryService.Infrastructure
                     .HasMaxLength(50);
 
                 builder.HasIndex(i => i.Sku).IsUnique();
+                builder.HasIndex(i => i.Quantity);
+            });
+
+            modelBuilder.Entity<StockMovement>(builder =>
+            {
+                builder.ToTable("StockMovements");
+
+                builder.HasKey(a => a.Id);
+
+                builder.Property(a => a.Sku)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                builder.Property(a => a.QuantityChange)
+                    .IsRequired();
+
+                builder.Property(a => a.OccurredAt)
+                    .IsRequired();
+
+                builder.HasIndex(a => a.Sku);
+                builder.HasIndex(a => a.OccurredAt);
             });
         }
 
-        Task IUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
+        Task IReadUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
     }
 }

@@ -12,6 +12,11 @@ namespace Sportsbook.InventoryService.Infrastructure.Extensions
                 .GetRequiredService<InventoryDbContext>();
 
             dbContext.Database.Migrate();
+
+            var readDbContext = scope.ServiceProvider
+                .GetRequiredService<ReadDbContext>();
+
+            readDbContext.Database.Migrate();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Core.InventoryContext;
+using Sportsbook.InventoryService.Core.InventoryContext.Repositories;
 
 namespace Sportsbook.InventoryService.Application.Features.InventoryItemContext.CreateItem
 {
