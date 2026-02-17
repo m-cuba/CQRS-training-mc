@@ -2,6 +2,7 @@
 using Sportsbook.InventoryService.API.Exceptions;
 using Sportsbook.InventoryService.Application.Extensions;
 using Sportsbook.InventoryService.Infrastructure.Extensions;
+using Sportsbook.InventoryService.Infrastructure.Messaging;
 
 public static class Startup
 {
@@ -28,6 +29,8 @@ public static class Startup
             options.SubstituteApiVersionInUrl = true;
         });
 
+        builder.Services.AddHostedService<EventConsumer>();
+
         builder.Services.AddExceptionHandler<InsufficientStockExceptionHandler>();
         builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
 
@@ -37,10 +40,8 @@ public static class Startup
 
         builder.Services.AddControllers();
 
-
         // Add Application layer services:
         builder.Services.AddApplicationServices();
-        builder.Services.AddValidationServices();
 
         // Add services to the container.
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
