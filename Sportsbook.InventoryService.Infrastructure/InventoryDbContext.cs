@@ -1,43 +1,45 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
-using Sportsbook.InventoryService.Core.InventoryContext;
+using Sportsbook.InventoryService.Infrastructure.Messaging;
 
 namespace Sportsbook.InventoryService.Infrastructure
 {
-    public class InventoryDbContext(DbContextOptions<InventoryDbContext> options) : DbContext(options), IUnitOfWork
+    public class InventoryDbContext(DbContextOptions<InventoryDbContext> options)
+        : DbContext(options), IUnitOfWork
     {
-        public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
+        public DbSet<EventStoreMessage> EventStore => Set<EventStoreMessage>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<InventoryItem>(builder =>
+            modelBuilder.Entity<EventStoreMessage>(builder =>
             {
-                builder.ToTable("InventoryItems");
+                builder.ToTable("EventStore");
 
-                builder.HasKey(i => i.Id);
+                builder.HasKey(e => e.Id);
 
-                builder.Property(i => i.Name)
+                builder.Property(e => e.StreamId)
                     .IsRequired()
                     .HasMaxLength(200);
 
-                // Convert Quantity value object to int in the DB.
-                builder.Property(i => i.Quantity)
-                    .HasConversion(
-                        q => q.Value,
-                        v => new Quantity(v))
+                builder.Property(e => e.EventType)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                builder.Property(e => e.Payload)
                     .IsRequired();
 
-                builder.Property(i => i.Sku)
-                    .HasConversion(
-                        sku => sku.Value,
-                        value => new Sku(value))
-                    .IsRequired()
-                    .HasMaxLength(50);
+                builder.Property(e => e.OccurredAt)
+                    .IsRequired();
 
-                builder.HasIndex(i => i.Sku).IsUnique();
+                builder.Property(e => e.Version)
+                    .IsRequired();
+
+                builder.HasIndex(e => e.StreamId);
+                builder.HasIndex(e => new { e.StreamId, e.Version }).IsUnique();
             });
         }
 
-        Task IUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
+        Task IUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken)
+            => SaveChangesAsync(cancellationToken);
     }
 }

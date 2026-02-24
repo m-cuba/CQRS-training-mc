@@ -1,36 +1,44 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Core.InventoryContext;
-using Sportsbook.InventoryService.Core.InventoryContext.Events;
 using Sportsbook.InventoryService.Core.InventoryContext.Repositories;
 
 namespace Sportsbook.InventoryService.Application.Features.InventoryItemContext.RemoveStock
 {
     public class RemoveStockCommandHandler(
-        IInventoryRepository repository,
+        IInventoryEventStoreRepository eventStoreRepository,
         IUnitOfWork unitOfWork,
         IValidator<RemoveStockCommand> validator,
-        IEventPublisher eventPublisher) : IRemoveStockCommandHandler
+        IEventPublisher eventPublisher,
+        ILogger<RemoveStockCommandHandler> logger) : IRemoveStockCommandHandler
     {
         public async Task Handle(RemoveStockCommand command, CancellationToken cancellationToken = default)
         {
             await validator.ValidateAndThrowAsync(command, cancellationToken);
 
-            var item = await repository.GetBySkuAsync(new Sku(command.Sku), cancellationToken)
-                ?? throw new InvalidOperationException("Item not found");
+            var streamId = $"inventory-item-{command.Sku}";
+            var history = await eventStoreRepository.LoadStreamAsync(streamId, cancellationToken);
 
-            item.RemoveStock(new Quantity(command.Quantity));
+            if (history.Count == 0)
+            {
+                throw new InvalidOperationException("Item not found");
+            }
+            logger.LogInformation("history count {Count}", history.Count);
+
+            var aggregate = InventoryItemAggregate.Rehydrate(history);
+
+            aggregate.RemoveStock(command.Quantity);
+
+            foreach (var @event in aggregate.UncommittedEvents)
+            {
+                var version = await eventStoreRepository.GetNextVersionAsync(streamId, cancellationToken);
+                eventStoreRepository.Append(streamId, @event, version);
+
+                await eventPublisher.PublishAsync(@event, cancellationToken);
+            }
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
-
-            var stockRemovedEvent = new StockChangedEvent(
-                item.Sku.Value,
-                item.Name,
-                -command.Quantity,
-                DateTimeOffset.UtcNow,
-                Guid.NewGuid());
-
-            await eventPublisher.PublishAsync(stockRemovedEvent, cancellationToken);
         }
     }
 }

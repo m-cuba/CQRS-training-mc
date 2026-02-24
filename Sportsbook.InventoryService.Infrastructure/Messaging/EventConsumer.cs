@@ -1,10 +1,10 @@
 using DotPulsar.Abstractions;
+using InventoryService.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Application.Seedwork.Services;
-using Sportsbook.InventoryService.Core.InventoryContext.Events;
 using System.Buffers;
 using System.Text;
 using System.Text.Json;

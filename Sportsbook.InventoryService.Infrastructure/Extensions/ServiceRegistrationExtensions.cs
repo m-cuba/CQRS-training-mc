@@ -34,7 +34,7 @@ public static class ServiceRegistrationExtensions
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        return services.AddScoped<IInventoryRepository, InventoryRepository>()
+        return services.AddScoped<IInventoryEventStoreRepository, EventStoreRepository>()
             .AddScoped<IInventoryReadRepository, InventoryReadRepository>()
             .AddScoped<IStockMovementReadRepository, StockMovementReadRepository>();
     }

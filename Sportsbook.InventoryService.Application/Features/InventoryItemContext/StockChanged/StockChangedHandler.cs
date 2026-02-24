@@ -1,6 +1,6 @@
-﻿using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
+﻿using InventoryService.Contracts;
+using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Core.InventoryContext;
-using Sportsbook.InventoryService.Core.InventoryContext.Events;
 using Sportsbook.InventoryService.Core.InventoryContext.Repositories;
 
 namespace Sportsbook.InventoryService.Application.Features.InventoryItemContext.StockChanged

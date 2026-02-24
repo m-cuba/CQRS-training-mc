@@ -1,5 +1,8 @@
 ﻿services:
-  postgres:
+  # =========================
+  # WRITE DB (EVENT STORE)
+  # =========================
+  inventory-postgres:
     image: postgres:16
     container_name: inventory-postgres
     environment:
@@ -9,17 +12,40 @@
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - inventory_postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U inventory_user -d inventorydb"]
       interval: 5s
       timeout: 5s
       retries: 5
 
+  # =========================
+  # AUDIT DB
+  # =========================
+  audit-postgres:
+    image: postgres:16
+    container_name: audit-postgres
+    environment:
+      POSTGRES_DB: auditdb
+      POSTGRES_USER: audit_user
+      POSTGRES_PASSWORD: audit_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - audit_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U audit_user -d auditdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # =========================
+  # PULSAR
+  # =========================
   pulsar:
     image: apachepulsar/pulsar:4.0.2
     container_name: inventory-pulsar
-    command: [ "bin/pulsar", "standalone" ]
+    command: ["bin/pulsar", "standalone"]
     ports:
       - "6650:6650"
       - "8080:8080"
@@ -29,14 +55,17 @@
       timeout: 5s
       retries: 5
 
-  api:
-    image: servicetemplate.api  
+  # =========================
+  # WRITE API
+  # =========================
+  inventory-api:
+    image: inventory.api
     build:
       context: .
       dockerfile: Sportsbook.InventoryService.API/Dockerfile
     container_name: inventory-api
     depends_on:
-      postgres:
+      inventory-postgres:
         condition: service_healthy
       pulsar:
         condition: service_healthy
@@ -44,9 +73,33 @@
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
       Pulsar__ServiceUrl: pulsar://pulsar:6650
-      ConnectionStrings__InventoryDb: "Host=postgres;Port=5432;Database=inventorydb;Username=inventory_user;Password=inventory_pass"
-      ConnectionStrings__InventoryReadDb: "Host=postgres;Port=5432;Database=inventorydb;Username=inventory_user;Password=inventory_pass"
+      ConnectionStrings__InventoryDb: "Host=inventory-postgres;Port=5432;Database=inventorydb;Username=inventory_user;Password=inventory_pass"
+      ConnectionStrings__InventoryReadDb: "Host=inventory-postgres;Port=5432;Database=inventorydb;Username=inventory_user;Password=inventory_pass"
     ports:
       - "5000:8080"
+
+  # =========================
+  # AUDIT MICROSERVICE
+  # =========================
+  inventory-audit:
+    image: inventory.audit
+    build:
+      context: .
+      dockerfile: Sportsbook.InventoryService.Audit.API/Dockerfile
+    container_name: inventory-audit
+    depends_on:
+      audit-postgres:
+        condition: service_healthy
+      pulsar:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      Pulsar__ServiceUrl: pulsar://pulsar:6650
+      ConnectionStrings__AuditDb: "Host=audit-postgres;Port=5432;Database=auditdb;Username=audit_user;Password=audit_pass"
+    ports:
+      - "5003:8080"
+
 volumes:
-  postgres_data:
+  inventory_postgres_data:
+  audit_postgres_data:

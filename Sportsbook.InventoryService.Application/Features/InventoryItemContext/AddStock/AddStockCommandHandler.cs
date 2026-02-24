@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
 using Sportsbook.InventoryService.Application.Seedwork.Interfaces;
 using Sportsbook.InventoryService.Core.InventoryContext;
-using Sportsbook.InventoryService.Core.InventoryContext.Events;
 using Sportsbook.InventoryService.Core.InventoryContext.Repositories;
 
 namespace Sportsbook.InventoryService.Application.Features.InventoryItemContext.AddStock
 {
     public class AddStockCommandHandler(
-        IInventoryRepository repository,
+        IInventoryEventStoreRepository eventStoreRepository,
         IUnitOfWork unitOfWork,
         IValidator<AddStockCommand> validator,
         IEventPublisher eventPublisher) : IAddStockCommandHandler
@@ -16,21 +15,27 @@ namespace Sportsbook.InventoryService.Application.Features.InventoryItemContext.
         {
             await validator.ValidateAndThrowAsync(command, cancellationToken);
 
-            var item = await repository.GetBySkuAsync(new Sku(command.Sku), cancellationToken)
-                ?? throw new InvalidOperationException("Item not found");
+            var streamId = $"inventory-item-{command.Sku}";
+            var history = await eventStoreRepository.LoadStreamAsync(streamId, cancellationToken);
 
-            item.AddStock(new Quantity(command.Quantity));
+            if (history.Count == 0)
+            {
+                throw new InvalidOperationException("Item not found");
+            }
+
+            var aggregate = InventoryItemAggregate.Rehydrate(history);
+
+            aggregate.AddStock(command.Quantity);
+
+            foreach (var @event in aggregate.UncommittedEvents)
+            {
+                var version = await eventStoreRepository.GetNextVersionAsync(streamId, cancellationToken);
+                eventStoreRepository.Append(streamId, @event, version);
+
+                await eventPublisher.PublishAsync(@event, cancellationToken);
+            }
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
-
-            var stockAddedEvent = new StockChangedEvent(
-                item.Sku.Value,
-                item.Name,
-                command.Quantity,
-                DateTimeOffset.UtcNow,
-                Guid.NewGuid());
-
-            await eventPublisher.PublishAsync(stockAddedEvent, cancellationToken);
         }
     }
 }

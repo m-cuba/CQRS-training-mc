@@ -3,40 +3,45 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Sportsbook.InventoryService.Infrastructure.Migrations
+namespace InventoryService.Audit.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialInventory : Migration
+    public partial class InitialAudit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "InventoryItems",
+                name: "AuditEntries",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    MovementId = table.Column<Guid>(type: "uuid", nullable: false),
                     Sku = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false)
+                    QuantityDelta = table.Column<int>(type: "integer", nullable: false),
+                    OccurredOn = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InventoryItems", x => x.Id);
+                    table.PrimaryKey("PK_AuditEntries", x => x.MovementId);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_InventoryItems_Sku",
-                table: "InventoryItems",
-                column: "Sku",
-                unique: true);
+                name: "IX_AuditEntries_OccurredOn",
+                table: "AuditEntries",
+                column: "OccurredOn");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuditEntries_Sku",
+                table: "AuditEntries",
+                column: "Sku");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "InventoryItems");
+                name: "AuditEntries");
         }
     }
 }

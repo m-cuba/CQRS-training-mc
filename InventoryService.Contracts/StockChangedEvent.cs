@@ -1,4 +1,4 @@
-﻿namespace Sportsbook.InventoryService.Core.InventoryContext.Events
+﻿namespace InventoryService.Contracts
 {
     public sealed record StockChangedEvent(
         string Sku,
@@ -6,5 +6,5 @@
         int Quantity,
         DateTimeOffset OccurredAt,
         Guid MovementId
-    );
+    ) : IDomainEvent;
 }
