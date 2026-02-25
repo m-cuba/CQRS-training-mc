@@ -30,6 +30,7 @@
 	</ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\InventoryService.Contracts\InventoryService.Contracts.csproj" />
       <ProjectReference Include="..\Sportsbook.InventoryService.Application\Sportsbook.InventoryService.Application.csproj" />
     </ItemGroup>
 

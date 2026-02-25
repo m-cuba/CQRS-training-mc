@@ -25,6 +25,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1800D0A2-519
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportsbook.InventoryService.API.Tests", "Sportsbook.InventoryService.Tests\Sportsbook.InventoryService.API.Tests.csproj", "{5EA7783B-A569-7F21-E3A7-33E8936FB155}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportsbook.InventoryService.Audit.API", "Sportsbook.InventoryService.Audit.API\Sportsbook.InventoryService.Audit.API.csproj", "{6DE15499-D4AA-45C7-AC90-C1C2DAF7E978}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryService.Contracts", "InventoryService.Contracts\InventoryService.Contracts.csproj", "{8D0FCE4B-7712-4245-8D94-A64A63401584}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryService.Audit.Application", "InventoryService.Audit.Application\InventoryService.Audit.Application.csproj", "{A203E334-3E5C-4383-B1CD-00D1915344A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryService.Audit.Infrastructure", "InventoryService.Audit.Infrastructure\InventoryService.Audit.Infrastructure.csproj", "{016109A9-4AB9-429F-952F-C441D530B8F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryService.Audit.Core", "InventoryService.Audit.Core\InventoryService.Audit.Core.csproj", "{53C499B2-65FD-4F11-9F18-2C355C06E8B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +61,26 @@ Global
 		{5EA7783B-A569-7F21-E3A7-33E8936FB155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EA7783B-A569-7F21-E3A7-33E8936FB155}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EA7783B-A569-7F21-E3A7-33E8936FB155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DE15499-D4AA-45C7-AC90-C1C2DAF7E978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DE15499-D4AA-45C7-AC90-C1C2DAF7E978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DE15499-D4AA-45C7-AC90-C1C2DAF7E978}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DE15499-D4AA-45C7-AC90-C1C2DAF7E978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D0FCE4B-7712-4245-8D94-A64A63401584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D0FCE4B-7712-4245-8D94-A64A63401584}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D0FCE4B-7712-4245-8D94-A64A63401584}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D0FCE4B-7712-4245-8D94-A64A63401584}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A203E334-3E5C-4383-B1CD-00D1915344A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A203E334-3E5C-4383-B1CD-00D1915344A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A203E334-3E5C-4383-B1CD-00D1915344A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A203E334-3E5C-4383-B1CD-00D1915344A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{016109A9-4AB9-429F-952F-C441D530B8F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016109A9-4AB9-429F-952F-C441D530B8F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{016109A9-4AB9-429F-952F-C441D530B8F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{016109A9-4AB9-429F-952F-C441D530B8F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C499B2-65FD-4F11-9F18-2C355C06E8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53C499B2-65FD-4F11-9F18-2C355C06E8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C499B2-65FD-4F11-9F18-2C355C06E8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53C499B2-65FD-4F11-9F18-2C355C06E8B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +91,11 @@ Global
 		{633B4DB2-543C-40EA-9D51-33261E479714} = {1800D0A2-519C-4246-BB0C-BE9048F5C259}
 		{1246219E-B9D7-4ECA-B8B7-DEC776E78921} = {1800D0A2-519C-4246-BB0C-BE9048F5C259}
 		{5EA7783B-A569-7F21-E3A7-33E8936FB155} = {B6713FE6-FE0C-4724-8D7C-2BAF04247177}
+		{6DE15499-D4AA-45C7-AC90-C1C2DAF7E978} = {1800D0A2-519C-4246-BB0C-BE9048F5C259}
+		{8D0FCE4B-7712-4245-8D94-A64A63401584} = {1800D0A2-519C-4246-BB0C-BE9048F5C259}
+		{A203E334-3E5C-4383-B1CD-00D1915344A6} = {1800D0A2-519C-4246-BB0C-BE9048F5C259}
+		{016109A9-4AB9-429F-952F-C441D530B8F3} = {1800D0A2-519C-4246-BB0C-BE9048F5C259}
+		{53C499B2-65FD-4F11-9F18-2C355C06E8B3} = {1800D0A2-519C-4246-BB0C-BE9048F5C259}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {668D3C3D-6338-4D1A-8664-730B2A223555}

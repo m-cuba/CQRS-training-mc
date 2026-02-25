@@ -1,4 +1,4 @@
-﻿using Sportsbook.InventoryService.Core.InventoryContext.Events;
+﻿using InventoryService.Contracts;
 
 namespace Sportsbook.InventoryService.Application.Seedwork.Interfaces
 {
